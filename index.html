@@ -1,0 +1,142 @@
+---
+layout: default
+title: "Amir Niaraki - Research Scientist"
+---
+
+    <nav class="nav">
+        <a href="#" class="nav-link" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">Home</a>
+        <a href="#projects" class="nav-link">Projects</a>
+        <a href="#publications" class="nav-link">Patents & Publications</a>
+        <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+
+        <header class="header">
+            <div class="profile-section">
+                <div class="profile-left">
+                    <img src="assets/images/profile_picture.jpg" alt="Amir Niaraki" class="profile-picture">
+                    <div class="profile-info">
+                        <h1 class="name">Amir Niaraki</h1>
+                        <p class="title">PhD, Iowa State University. Mechanical Engineering and Computer Science</p>
+                    </div>
+                </div>
+                <div class="profile-right">
+                    <p class="description">
+                        I'm a Research Scientist and Manager of the <a href="https://www.musco.com" target="_blank" rel="noopener">Musco</a> AI Team. My core scientific interests are computational perception and intelligent machines, particularly how to accurately localize objects or sense a scene using traditional computer vision methods or deep learning. This fascination traces back to my master's thesis on reinforcement learning for robot path planning and other neural network models for scene perception.
+                    </p>
+                    <p class="description">
+                        My first Ph.D. focused on electrochemical and visual sensing of rat dopaminergic neurons—a different kind of neural network, this time on a chip! I'm currently affiliated with the <a href="https://www.cs.iastate.edu/people/amir-niaraki-asli" target="_blank" rel="noopener">Department of Computer Science</a> at Iowa State University, where our latest publications explore the bird's-eye coverage problem in large outdoor environments.
+                    </p>
+                    <div class="research-interests">
+                        <span class="research-tag">Computer Vision</span>
+                        <span class="research-tag">Neuronal Sensing</span>
+                        <span class="research-tag">Reinforcement Learning</span>
+                        <span class="research-tag">Pattern Recognition</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <section id="projects" class="section">
+            <h2 class="section-title">Projects</h2>
+            <div class="projects-grid" id="projects-container">
+                <!-- Projects will be loaded here by JavaScript -->
+            </div>
+        </section>
+
+        <section id="publications" class="section">
+            <h2 class="section-title">Patents and Publications</h2>
+            <ol class="publications-list" id="publications-container">
+                <!-- Publications will be loaded here by JavaScript -->
+            </ol>
+        </section>
+
+        <section id="contact" class="section">
+            <h2 class="section-title">Contact</h2>
+            <div class="contact-links">
+                <a href="mailto:niaraki@iastate.edu" class="contact-link">Email</a>
+                <a href="https://github.com/AmirNiaraki" class="contact-link" target="_blank" rel="noopener">GitHub</a>
+                <a href="https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID" class="contact-link" target="_blank" rel="noopener">Google Scholar</a>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Load and render projects
+        async function loadProjects() {
+            try {
+                const response = await fetch('{{ "/assets/projects.json" | relative_url }}?v=' + Date.now());
+                const data = await response.json();
+                const projects = data.projects.sort((a, b) => (b.start_year || 0) - (a.start_year || 0));
+                
+                const container = document.getElementById('projects-container');
+                container.innerHTML = projects.map(p => `
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="${p.image.includes('/') ? p.image : 'assets/images/' + p.image}" 
+                                 alt="${p.title || p.name}" 
+                                 onerror="this.src='assets/images/research_placeholder_icon.jpg'">
+                        </div>
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3 class="project-title">${p.title || p.name}</h3>
+                                <span class="project-year">${p.year || p.start_year}</span>
+                            </div>
+                            ${p.description ? `<p class="project-description">${p.description}</p>` : ''}
+                            ${(p.links || p.paper || p.code) ? `
+                                <div class="project-links">
+                                    ${p.links ? p.links.map(l => `<a class="project-link" href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`).join('') : ''}
+                                    ${p.paper ? `<a class="project-link" href="${p.paper}" target="_blank" rel="noopener">Paper</a>` : ''}
+                                    ${p.code ? `<a class="project-link" href="${p.code}" target="_blank" rel="noopener">Code</a>` : ''}
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading projects:', error);
+            }
+        }
+
+        // Load and render publications
+        async function loadPublications() {
+            try {
+                const response = await fetch('{{ "/assets/publications.json" | relative_url }}?v=' + Date.now());
+                const data = await response.json();
+                const publications = data.publications;
+                
+                const container = document.getElementById('publications-container');
+                container.innerHTML = publications.map(pub => `
+                    <li class="publication-item">
+                        <p class="publication-text">
+                            ${pub.text || `${pub.title}${pub.authors ? ', ' + pub.authors : ''}${pub.venue ? ', ' + pub.venue : ''}${pub.year ? ', ' + pub.year : ''}.`}
+                        </p>
+                    </li>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading publications:', error);
+            }
+        }
+
+        // Reload all data
+        function reloadData() {
+            loadProjects();
+            loadPublications();
+        }
+
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProjects();
+            loadPublications();
+            
+            // Add keyboard shortcut: Ctrl+R to reload data
+            document.addEventListener('keydown', function(e) {
+                if (e.ctrlKey && e.key === 'r') {
+                    e.preventDefault();
+                    reloadData();
+                    console.log('Data reloaded!');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

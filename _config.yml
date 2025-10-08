@@ -1,0 +1,19 @@
+title: "Amir Niaraki"
+description: "Research Scientist portfolio"
+url: ""
+baseurl: ""
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+
+# Include JSON files in the build
+include:
+  - assets/projects.json
+  - assets/publications.json
+
+
