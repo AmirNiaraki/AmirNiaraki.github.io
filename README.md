@@ -9,5 +9,3 @@ This repository contains the source code for my personal portfolio website built
 
 ## 🚀 Live Website
 **Visit my page: [https://amirniaraki.github.io](https://amirniaraki.github.io)**
-
--
