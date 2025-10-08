@@ -58,7 +58,7 @@ title: "Amir Niaraki - Research Scientist"
         </section>
 
         <section id="publications" class="section">
-            <h2 class="section-title">Patents and Publications</h2>
+            <h2 class="section-title">Papers and Patents</h2>
             <ol class="publications-list" id="publications-container">
                 <!-- Publications will be loaded here by JavaScript -->
             </ol>
@@ -83,6 +83,13 @@ title: "Amir Niaraki - Research Scientist"
         </section>
     </div>
 
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal">
+        <span class="image-modal-close">&times;</span>
+        <img class="image-modal-content" id="modalImage">
+        <div class="image-modal-caption" id="modalCaption"></div>
+    </div>
+
     <script>
         // Load and render projects
         async function loadProjects() {
@@ -94,7 +101,7 @@ title: "Amir Niaraki - Research Scientist"
                 const container = document.getElementById('projects-container');
                 container.innerHTML = projects.map(p => `
                     <div class="project-card">
-                        <div class="project-image">
+                        <div class="project-image" onclick="openImageModal('${p.image.includes('/') ? p.image : 'assets/images/' + p.image}', '${p.title || p.name}')">
                             <img src="${p.image.includes('/') ? p.image : 'assets/images/' + p.image}" 
                                  alt="${p.title || p.name}" 
                                  onerror="this.src='assets/images/research_placeholder_icon.jpg'">
@@ -159,13 +166,53 @@ title: "Amir Niaraki - Research Scientist"
             loadPublications();
         }
 
+        // Image modal functions
+        function openImageModal(imageSrc, caption) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            
+            modal.style.display = 'block';
+            modalImg.src = imageSrc;
+            modalCaption.textContent = caption;
+            
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+            
+            // Restore body scroll
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside the image
+        function closeModalOnClick(event) {
+            const modal = document.getElementById('imageModal');
+            if (event.target === modal) {
+                closeImageModal();
+            }
+        }
+
         // Load data when page loads
         document.addEventListener('DOMContentLoaded', function() {
             loadProjects();
             loadPublications();
             
-            // Add keyboard shortcut: Ctrl+R to reload data
+            // Add event listeners for modal
+            const closeBtn = document.querySelector('.image-modal-close');
+            const modal = document.getElementById('imageModal');
+            
+            closeBtn.addEventListener('click', closeImageModal);
+            modal.addEventListener('click', closeModalOnClick);
+            
+            // Close modal with Escape key
             document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    closeImageModal();
+                }
                 if (e.ctrlKey && e.key === 'r') {
                     e.preventDefault();
                     reloadData();
