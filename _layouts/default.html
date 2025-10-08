@@ -14,6 +14,39 @@
     <div class="container">
         {{ content }}
     </div>
+    
+    <script>
+        // Auto-hide navigation on mobile when scrolling down
+        let lastScrollTop = 0;
+        const nav = document.querySelector('.nav');
+        
+        window.addEventListener('scroll', function() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Only apply on mobile (768px and below)
+            if (window.innerWidth <= 768) {
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    // Scrolling down - hide nav
+                    nav.classList.add('nav-hidden');
+                } else {
+                    // Scrolling up - show nav
+                    nav.classList.remove('nav-hidden');
+                }
+            } else {
+                // On desktop, always show nav
+                nav.classList.remove('nav-hidden');
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+        
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                nav.classList.remove('nav-hidden');
+            }
+        });
+    </script>
 </body>
 </html>
 

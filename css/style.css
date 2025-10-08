@@ -173,6 +173,20 @@ body {
     border: 1px solid var(--dark-blue-grey);
     border-radius: 999px;
     box-shadow: 0 4px 20px rgba(26, 35, 50, 0.15);
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Auto-hide navigation on mobile when scrolling down */
+@media (max-width: 768px) {
+    .nav {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    
+    .nav.nav-hidden {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
 }
 
 .nav::after {
