@@ -32,6 +32,20 @@ title: "Amir Niaraki - Research Scientist"
                         <span class="research-tag">Reinforcement Learning</span>
                         <span class="research-tag">Pattern Recognition</span>
                     </div>
+                    <div class="profile-contact-links">
+                        <a href="mailto:niaraki@iastate.edu" class="profile-contact-link">
+                            <img src="assets/images/icons/mail.png" alt="Email" class="profile-contact-icon">Email
+                        </a>
+                        <a href="https://github.com/AmirNiaraki" class="profile-contact-link" target="_blank" rel="noopener">
+                            <img src="assets/images/icons/github.png" alt="GitHub" class="profile-contact-icon">GitHub
+                        </a>
+                        <a href="https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID" class="profile-contact-link" target="_blank" rel="noopener">
+                            <img src="assets/images/icons/gscholar.png" alt="Google Scholar" class="profile-contact-icon">Google Scholar
+                        </a>
+                        <a href="https://www.linkedin.com/in/amir-niaraki-71724688/" class="profile-contact-link" target="_blank" rel="noopener">
+                            <img src="assets/images/icons/linkedin.png" alt="LinkedIn" class="profile-contact-icon">LinkedIn
+                        </a>
+                    </div>
                 </div>
             </div>
         </header>
@@ -53,9 +67,18 @@ title: "Amir Niaraki - Research Scientist"
         <section id="contact" class="section">
             <h2 class="section-title">Contact</h2>
             <div class="contact-links">
-                <a href="mailto:niaraki@iastate.edu" class="contact-link">Email</a>
-                <a href="https://github.com/AmirNiaraki" class="contact-link" target="_blank" rel="noopener">GitHub</a>
-                <a href="https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID" class="contact-link" target="_blank" rel="noopener">Google Scholar</a>
+                <a href="mailto:niaraki@iastate.edu" class="contact-link">
+                    <img src="assets/images/icons/mail.png" alt="Email" class="contact-icon">Email
+                </a>
+                <a href="https://github.com/AmirNiaraki" class="contact-link" target="_blank" rel="noopener">
+                    <img src="assets/images/icons/github.png" alt="GitHub" class="contact-icon">GitHub
+                </a>
+                <a href="https://scholar.google.com/citations?user=YOUR_SCHOLAR_ID" class="contact-link" target="_blank" rel="noopener">
+                    <img src="assets/images/icons/gscholar.png" alt="Google Scholar" class="contact-icon">Google Scholar
+                </a>
+                <a href="https://www.linkedin.com/in/amir-niaraki-71724688/" class="contact-link" target="_blank" rel="noopener">
+                    <img src="assets/images/icons/linkedin.png" alt="LinkedIn" class="contact-icon">LinkedIn
+                </a>
             </div>
         </section>
     </div>
@@ -79,14 +102,14 @@ title: "Amir Niaraki - Research Scientist"
                         <div class="project-content">
                             <div class="project-header">
                                 <h3 class="project-title">${p.title || p.name}</h3>
-                                <span class="project-year">${p.year || p.start_year}</span>
+                                <span class="project-year">${p.year || (p.end_year ? (p.start_year === p.end_year ? p.start_year : `${p.start_year} - ${p.end_year}`) : `${p.start_year} - ongoing`)}</span>
                             </div>
                             ${p.description ? `<p class="project-description">${p.description}</p>` : ''}
                             ${p.papers && p.papers.length > 0 ? `
                                 <div class="publications-section">
                                     <h4 class="publications-title">Publications</h4>
                                     <div class="publications-links">
-                                        ${p.papers.map((paper, index) => 
+                                        ${p.papers.sort((a, b) => (b.year || 0) - (a.year || 0)).map((paper, index) => 
                                             `<a class="project-link" href="${paper.url}" target="_blank" rel="noopener">${paper.title}</a>${index === 0 && p.code ? `<a class="project-link code-link" href="${p.code}" target="_blank" rel="noopener">View Code</a>` : ''}`
                                         ).join('')}
                                     </div>

@@ -1,6 +1,53 @@
 {
     "publications": [
         {
+            "title": "Advancement of sensor integrated organ-on-chip devices",
+            "authors": "G. A. Clarke, B. X. Hartse, A. E. Niaraki Asli, M. Taghavimehr, N. Hashemi, M. A. Shirsavar, R. Montazami, N. Alimoradi, V. Nasirian, and L. J. Ouedraogo",
+            "venue": "Sensors",
+            "year": 2021,
+            "volume": "21",
+            "issue": "4",
+            "pages": "1367",
+            "citations": 0,
+            "type": "journal",
+            "image": "organ_on_chip_2021.jpg",
+            "paper_link": "",
+            "description": "Comprehensive review of sensor integrated organ-on-chip devices, highlighting advancements in microfluidic systems for biomedical applications and real-time monitoring capabilities."
+        },
+        {
+            "title": "Polyethylene glycol wrapped alginate/graphene hollow microfibers as flexible supercapacitors",
+            "authors": "V. Nasirian, A. E. Niaraki-Asli, S. S. Aykar, M. Taghavimehr, R. Montazami, and N. Hashemi",
+            "venue": "Conference Paper",
+            "year": 2021,
+            "citations": 0,
+            "type": "conference",
+            "image": "supercapacitor_2021.jpg",
+            "paper_link": "",
+            "description": "Development of flexible supercapacitors using polyethylene glycol wrapped alginate/graphene hollow microfibers for energy storage applications in wearable electronics."
+        },
+        {
+            "title": "Real-time monitoring of neuronal cells through electrohydrodynamic patterning of flexible graphene microelectrodes",
+            "authors": "A. E. Niaraki Asli",
+            "venue": "Iowa State University",
+            "year": 2021,
+            "type": "thesis",
+            "image": "thesis_2021.jpg",
+            "paper_link": "",
+            "description": "PhD dissertation focusing on the development of flexible graphene microelectrodes using electrohydrodynamic patterning techniques for real-time monitoring of neuronal cell activity."
+        },
+        {
+            "title": "A Vision Based Deep Reinforcement Learning Algorithm for UAV Obstacle Avoidance",
+            "authors": "J. Roghair, A. Niaraki, K. Ko, A. Jannesari",
+            "venue": "Proceedings of the Computer Vision and Pattern Recognition Conference",
+            "year": 2021,
+            "pages": "115-128",
+            "citations": 0,
+            "type": "conference",
+            "image": "cvpr2025.jpg",
+            "paper_link": "https://link.springer.com/chapter/10.1007/978-3-030-82193-7_8",
+            "description": "Integration of reinforcement learning with unmanned aerial vehicles (UAVs) to achieve autonomous flight has been an active research area in recent years. An important part focuses on obstacle detection and avoidance for UAVs navigating through an environment. Exploration in an unseen environment can be tackled with Deep Q-Network (DQN). However, value exploration with uniform sampling of actions may lead to redundant states, where often the environments inherently bear sparse rewards. To resolve this, we present two techniques for improving exploration for UAV obstacle avoidance. The first is a convergence-based approach that uses convergence error to iterate through unexplored actions and temporal threshold to balance exploration and exploitation. The second is a guidance-based approach using a Domain Network which uses a Gaussian mixture distribution to compare previously seen states to a predicted next state in order to select the next action. Performance and evaluation of these approaches were implemented in multiple 3-D simulation environments, with variation in complexity. The proposed approach demonstrates a two-fold improvement in average rewards compared to state of the art."
+        },
+        {
             "title": "Maximizing aerial detection of organic objects in non-exhaustively searchable survey area",
             "authors": "A Niaraki, J Herrera-Gerena, J Roghair, A Jannesari",
             "venue": "Proceedings of the Computer Vision and Pattern Recognition Conference",

@@ -1,20 +1,34 @@
 {
     "projects": [
         {
-            "name": "RL-based Path Planning for Aerial Object Detection",
+            "name": "3D Path Planning for Power-Optimized Aerial Object Detection With Reinforcement Learning",
             "description": "Unmanned aerial vehicles are increasingly employed for exploratory missions in outdoor environments. In the majority of these missions, such as anomaly detection in large farms, the distribution of the target objects is unknown. Hence, today's commercial UAVs usually follow a complete coverage flight plan to obtain an orthomosaic of the entire search domain prior to object detection. This work presents a generalizable and device-agnostic path planning framework that provides a 3-dimensional navigation plan based on the pattern of the detected targets and the wind field at the time of flight. The user starts with an aerial or satellite image of the survey area, and the application will provide a path for the drone using the flight-time wind field. The Advantage Actor-Critic method was initially implemented in low-fidelity gym environments to learn from the combination of drone navigation physics and its perception module. A dataset of Near-Infrared (NIR) was created by flying over multiple soccer fields on various days to train the object detector on real-world data. An automated annotation method, Double-clustering, was developed to localize plant anomalies. This preprocessing method enabled training of a retina network, which reduced the inference time of the perception module from an average of 0.656 s to 0.04 s. The developed framework was tested with real-time reading of the wind field, and the number of detected anomalies was compared to the benchmark pathing of the same drone. During a single battery life, the proposed IP4 architecture could detect about three times the number of goal objects compared to the state- of-the-art algorithm in various wind speeds. We demonstrate that, the Integrated Power and perception Path Planning (IP4) can outperform the complete coverage solution even if a prior map is not provided.",
-            "image": "CCPP",
+            "image": "drone_path.png",
             "code": "https://github.com/AmirNiaraki/drone_gym",
             "papers": [
                 {
-                    "title": "Maximizing aerial detection of organic objects in non-exhaustively searchable survey area",
+                    "title": "Maximizing Aerial Detection of Organic Objects in Non-Exhaustively Searchable Survey Area",
                     "url": "https://openaccess.thecvf.com/content/CVPR2025W/V4A/papers/Niaraki_Maximizing_aerial_detection_of_organic_objects_in_non-exhaustively_searchable_survey_CVPRW_2025_paper.pdf",
-                    "type": "Conference"
+                    "type": "Conference",
+                    "year": 2025
                 },
                 {
-                    "title": "Energy-aware 3D path planning via Reinforcement Learning for aerial object detection and mapping",
+                    "title": "Energy-Aware 3D Path Planning via Reinforcement Learning for Aerial Object Detection and Mapping",
                     "url": "https://lib.dr.iastate.edu/etd/2024/",
-                    "type": "Thesis"
+                    "type": "Thesis",
+                    "year": 2024
+                },
+                {
+                    "title": "A Vision Based Deep Reinforcement Learning Algorithm for UAV Obstacle Avoidance",
+                    "url": "https://link.springer.com/chapter/10.1007/978-3-030-82193-7_8",
+                    "type": "Conference",
+                    "year": 2021
+                },
+                {
+                    "title": "Visual Exploration and Energy-Aware Path Planning via Reinforcement Learning",
+                    "url": "https://arxiv.org/abs/1909.12217",
+                    "type": "Preprint",
+                    "year": 2019
                 }
             ],
             "gallery": null,
@@ -27,227 +41,118 @@
             ]
         },
         {
-            "name": "AUTOMATIC UMPIRING SYSTEM",
-            "description": "A system for creating an artificial strike zone is disclosed. One or more cameras, such as a first camera and a second camera, are installed on a sports field, wherein the first camera is installed at a first location, and the second camera, when installed, is installed at a second location. Each camera is directed at a common focal point. Each camera captures an individual video stream. Processors detect a batter near the common focal point in at least one of the video streams and construct a v...",
-            "image": "AUTOMATIC_UMPIRING_SYSTEM.jpg",
+            "name": "Automatic Umpiring System",
+            "description": "We designed a stereo vision system to detect the ball during a baseball game, map the field with sub-inch accuracy, measure the batter’s size using pose models, and ultimately make strike and ball calls faster and more precisely than a human umpire!",
+            "image": "trajectory.png",
             "code": null,
             "papers": [
                 {
                     "title": "Automatic Umpiring System",
                     "url": "https://patents.google.com/patent/US20240173608A1",
-                    "type": "Patent"
+                    "type": "Patent",
+                    "year": 2024
                 }
             ],
             "gallery": null,
-            "start_year": 2024,
-            "end_year": 2024,
+            "start_year": 2022,
+            "end_year": null,
             "tags": [
                 "Patent"
             ]
         },
         {
-            "name": "Energy-aware 3D path planning via Reinforcement Learning for aerial object detection and mapping",
-            "description": "PhD dissertation focusing on developing energy-efficient path planning algorithms for unmanned aerial vehicles using reinforcement learning for autonomous object detection and environmental mapping.",
-            "image": "thesis_2024.jpg",
+            "name": "Rat Dopaminergic Neurons on a Chip!",
+            "description": "We made a microelectrode array with graphene for high-resolution, real-time monitoring of neural cell activity. We then designed methodology to monitor their visual and electrochemical activity under damage and growth conditions.",
+            "image": "3d_graphene_2019.png",
             "code": null,
             "papers": [
                 {
-                    "title": "Energy-aware 3D path planning via Reinforcement Learning for aerial object detection and mapping",
-                    "url": "https://lib.dr.iastate.edu/etd/2024/",
-                    "type": "Thesis"
-                }
-            ],
-            "gallery": null,
-            "start_year": 2024,
-            "end_year": 2024,
-            "tags": [
-                "Thesis"
-            ]
-        },
-
-        {
-            "name": "Visual and Electrochemical monitoring of neural cells through inkjet printed graphene microelectrodes",
-            "description": "Novel graphene-based microelectrodes enabling high-resolution, real-time monitoring of neural cell activity with minute-level temporal precision for advanced neurobiological research.",
-            "image": "neural_monitoring_2022.jpg",
-            "code": null,
-            "papers": [
-                {
-                    "title": "Minute-sensitive real-time monitoring of neural cells through printed graphene microelectrodes",
-                    "url": "https://www.sciencedirect.com/science/article/pii/S0956566322001234",
-                    "type": "Journal"
-                },
-                {
-                    "title": "Capacitance of Flexible Polymer/Graphene Microstructures with High Mechanical Strength",
+                    "title": "Capacitance of Flexible Polymer/Graphene Microstructures With High Mechanical Strength",
                     "url": "https://www.liebertpub.com/doi/10.1089/3dp.2023.0001",
-                    "type": "Journal"
+                    "type": "Journal",
+                    "year": 2023
                 },
                 {
-                    "title": "Electrochemical characterization of dopamine in neural cells with flexible biosensors",
+                    "title": "Minute-Sensitive Real-Time Monitoring of Neural Cells Through Printed Graphene Microelectrodes",
+                    "url": "https://www.sciencedirect.com/science/article/pii/S0956566322001234",
+                    "type": "Journal",
+                    "year": 2022
+                },
+                {
+                    "title": "Electrochemical Characterization of Dopamine in Neural Cells With Flexible Biosensors",
                     "url": "https://asmedigitalcollection.asme.org/manufacturingscience/article/144/9/091009/1147001",
-                    "type": "Journal"
+                    "type": "Journal",
+                    "year": 2022
+                },
+                {
+                    "title": "High-Yield Production of Aqueous Graphene for Electrohydrodynamic Drop-on-Demand Printing of Biocompatible Conductive Patterns",
+                    "url": "https://www.mdpi.com/2079-6374/10/1/6",
+                    "type": "Journal",
+                    "year": 2020
+                },
+                {
+                    "title": "Viability of Neural Cells on 3D Printed Graphene Bioelectronics",
+                    "url": "https://www.mdpi.com/2079-6374/9/4/112",
+                    "type": "Journal",
+                    "year": 2019
                 }
-
             ],
             "gallery": null,
-            "start_year": 2017,
-            "end_year": 2021,
+            "start_year": 2018,
+            "end_year": 2023,
             "tags": [
                 "Journal"
             ]
         },
         {
-            "name": "Fabrication of Conductive Hollow Microfibers for Encapsulation of Astrocyte Cells",
-            "description": "Development of conductive hollow microfibers for three-dimensional encapsulation and electrical stimulation of astrocyte cells, advancing tissue engineering applications in neuroscience.",
-            "image": "astrocyte_2022.jpg",
+            "name": "Fabrication of Flexible Biosensors for interaction with Glial and Neural Cells",
+            "description": "We first employed a microfluidic technique to create a water-based, highly conductive graphene solution to serve as a conductive ink. We then designed an electrohydrodynamic inkjet printing technique to construct biocompatible and flexible electrodes. These conductive patterns were used in our development of conductive hollow microfibers for three-dimensional encapsulation and electrical stimulation of astrocyte cells along with Rat N27 Dopaminergic Neurons.",
+            "image": "cells_graphene.png",
             "code": null,
             "papers": [
                 {
                     "title": "Fabrication of Conductive Hollow Microfibers for Encapsulation of Astrocyte Cells",
                     "url": "https://www.biorxiv.org/content/10.1101/2022.03.09.483669v1",
-                    "type": "Preprint"
-                }
-            ],
-            "gallery": null,
-            "start_year": 2022,
-            "end_year": 2022,
-            "tags": [
-                "Preprint"
-            ]
-        },
-        {
-            "name": "Graphene microelectrodes for real-time impedance spectroscopy of neural cells",
-            "description": "Implementation of graphene-based microelectrodes for real-time impedance spectroscopy, enabling non-invasive monitoring of neural cell behavior and viability in vitro.",
-            "image": "impedance_2022.jpg",
-            "code": null,
-            "papers": [
-                {
-                    "title": "Graphene microelectrodes for real-time impedance spectroscopy of neural cells",
-                    "url": "https://pubs.acs.org/doi/10.1021/acsabm.1c01015",
-                    "type": "Journal"
-                }
-            ],
-            "gallery": null,
-            "start_year": 2022,
-            "end_year": 2022,
-            "tags": [
-                "Journal"
-            ]
-        },
-        {
-            "name": "Behavior of Neural Cells Post Manufacturing and After Prolonged Encapsulation within Conductive Graphene-Laden Alginate Microfibers",
-            "description": "Comprehensive study of neural cell viability and functionality within conductive alginate-graphene microfibers, establishing protocols for long-term cell encapsulation in bioelectronic devices.",
-            "image": "encapsulation_2021.jpg",
-            "code": null,
-            "papers": [
-                {
-                    "title": "Behavior of Neural Cells Post Manufacturing and After Prolonged Encapsulation within Conductive Graphene-Laden Alginate Microfibers",
-                    "url": "https://onlinelibrary.wiley.com/doi/10.1002/adbi.202101026",
-                    "type": "Journal"
-                }
-            ],
-            "gallery": null,
-            "start_year": 2021,
-            "end_year": 2021,
-            "tags": [
-                "Journal"
-            ]
-        },
-        {
-            "name": "Visual Exploration and Energy-aware Path Planning via Reinforcement Learning",
-            "description": "Development of reinforcement learning algorithms for energy-efficient visual exploration and path planning in autonomous systems, with applications in robotics and unmanned aerial vehicles.",
-            "image": "visual_exploration_2021.jpg",
-            "code": null,
-            "papers": [
-                {
-                    "title": "Visual Exploration and Energy-aware Path Planning via Reinforcement Learning",
-                    "url": "https://arxiv.org/abs/1909.12217",
-                    "type": "Preprint"
+                    "type": "Preprint",
+                    "year": 2022
                 },
                 {
-                    "title": "Energy-aware goal selection and path planning of uav systems via reinforcement learning",
-                    "url": "https://arxiv.org/abs/1909.12217",
-                    "type": "Preprint"
+                    "title": "Enhancing the Conductivity of Cell-Laden Alginate Microfibers With Aqueous Graphene for Neural Applications",
+                    "url": "https://www.frontiersin.org/articles/10.3389/fmats.2020.00061/full",
+                    "type": "Journal",
+                    "year": 2020
+                },
+                {
+                    "title": "Behavior of Neural Cells Post Manufacturing and After Prolonged Encapsulation Within Conductive Graphene-Laden Alginate Microfibers",
+                    "url": "https://onlinelibrary.wiley.com/doi/10.1002/adbi.202101026",
+                    "type": "Journal",
+                    "year": 2021
                 }
             ],
             "gallery": null,
-            "start_year": 2019,
-            "end_year": 2021,
+            "start_year": 2020,
+            "end_year": 2022,
             "tags": [
                 "Preprint",
-                "RL"
-            ]
-        },
-        {
-            "name": "Enhancing the Conductivity of Cell-Laden Alginate Microfibers with Aqueous Graphene for Neural Applications",
-            "description": "Innovative approach to enhance electrical conductivity of alginate microfibers through aqueous graphene integration, enabling improved neural cell stimulation and monitoring capabilities.",
-            "image": "conductivity_2020.jpg",
-            "code": null,
-            "papers": [
-                {
-                    "title": "Enhancing the Conductivity of Cell-Laden Alginate Microfibers with Aqueous Graphene for Neural Applications",
-                    "url": "https://www.frontiersin.org/articles/10.3389/fmats.2020.00061/full",
-                    "type": "Journal"
-                }
-            ],
-            "gallery": null,
-            "start_year": 2020,
-            "end_year": 2020,
-            "tags": [
                 "Journal"
             ]
         },
+
         {
-            "name": "High-Yield Production of Aqueous Graphene for Electrohydrodynamic Drop-on-Demand Printing of Biocompatible Conductive Patterns",
-            "description": "Development of high-yield aqueous graphene production methods for electrohydrodynamic printing of biocompatible conductive patterns, advancing flexible bioelectronic device fabrication.",
-            "image": "graphene_printing_2020.jpg",
-            "code": null,
-            "papers": [
-                {
-                    "title": "High-Yield Production of Aqueous Graphene for Electrohydrodynamic Drop-on-Demand Printing of Biocompatible Conductive Patterns",
-                    "url": "https://www.mdpi.com/2079-6374/10/1/6",
-                    "type": "Journal"
-                }
-            ],
-            "gallery": null,
-            "start_year": 2020,
-            "end_year": 2020,
-            "tags": [
-                "Journal"
-            ]
-        },
-        {
-            "name": "Viability of Neural Cells on 3D Printed Graphene Bioelectronics",
-            "description": "Assessment of neural cell compatibility with 3D printed graphene-based bioelectronic devices, establishing foundational knowledge for neural interface technologies.",
-            "image": "3d_graphene_2019.png",
-            "code": null,
-            "papers": [
-                {
-                    "title": "Viability of Neural Cells on 3D Printed Graphene Bioelectronics",
-                    "url": "https://www.mdpi.com/2079-6374/9/4/112",
-                    "type": "Journal"
-                }
-            ],
-            "gallery": null,
-            "start_year": 2019,
-            "end_year": 2019,
-            "tags": [
-                "Journal"
-            ]
-        },
-        {
-            "name": "Characterization of syngas combustion in intersecting burners using the interferometry method",
+            "name": "Characterization of Syngas Combustion in Intersecting Burners Using the Interferometry Method",
             "description": "Inserting physical probes for temperature measurement will influence the flow field, therefore we designed a vision based experiment setup to estimate the temperature and flame structure based on interferometry method.",
             "image": "interferrometry_2017.png",
             "code": null,
             "papers": [
                 {
-                    "title": "Characterization of syngas combustion in intersecting burners using the interferometry method",
+                    "title": "Characterization of Syngas Combustion in Intersecting Burners Using the Interferometry Method",
                     "url": "https://pubs.acs.org/doi/10.1021/acs.energyfuels.7b01612",
-                    "type": "Journal"
+                    "type": "Journal",
+                    "year": 2017
                 }
             ],
             "gallery": null,
-            "start_year": 2017,
+            "start_year": 2015,
             "end_year": 2017,
             "tags": [
                 "Journal"
