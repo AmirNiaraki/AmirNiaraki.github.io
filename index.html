@@ -82,11 +82,24 @@ title: "Amir Niaraki - Research Scientist"
                                 <span class="project-year">${p.year || p.start_year}</span>
                             </div>
                             ${p.description ? `<p class="project-description">${p.description}</p>` : ''}
-                            ${(p.links || p.paper || p.code) ? `
+                            ${p.papers && p.papers.length > 0 ? `
+                                <div class="publications-section">
+                                    <h4 class="publications-title">Publications</h4>
+                                    <div class="publications-links">
+                                        ${p.papers.map((paper, index) => 
+                                            `<a class="project-link" href="${paper.url}" target="_blank" rel="noopener">${paper.title}</a>${index === 0 && p.code ? `<a class="project-link code-link" href="${p.code}" target="_blank" rel="noopener">View Code</a>` : ''}`
+                                        ).join('')}
+                                    </div>
+                                </div>
+                            ` : ''}
+                            ${p.code && (!p.papers || p.papers.length === 0) ? `
                                 <div class="project-links">
-                                    ${p.links ? p.links.map(l => `<a class="project-link" href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`).join('') : ''}
-                                    ${p.paper ? `<a class="project-link" href="${p.paper}" target="_blank" rel="noopener">Paper</a>` : ''}
-                                    ${p.code ? `<a class="project-link" href="${p.code}" target="_blank" rel="noopener">Code</a>` : ''}
+                                    <a class="project-link" href="${p.code}" target="_blank" rel="noopener">View Code</a>
+                                </div>
+                            ` : ''}
+                            ${p.links ? `
+                                <div class="project-links">
+                                    ${p.links.map(l => `<a class="project-link" href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`).join('')}
                                 </div>
                             ` : ''}
                         </div>

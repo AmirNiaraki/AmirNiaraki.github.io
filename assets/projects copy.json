@@ -46,6 +46,25 @@
             ]
         },
         {
+            "name": "Capacitance of Flexible Polymer/Graphene Microstructures with High Mechanical Strength",
+            "description": "Investigation of electrical properties and mechanical strength of flexible polymer-graphene composite microstructures fabricated using 3D printing techniques for flexible electronics applications.",
+            "image": "capacitance_2024.jpg",
+            "code": null,
+            "papers": [
+                {
+                    "title": "Capacitance of Flexible Polymer/Graphene Microstructures with High Mechanical Strength",
+                    "url": "https://www.liebertpub.com/doi/10.1089/3dp.2023.0001",
+                    "type": "Journal"
+                }
+            ],
+            "gallery": null,
+            "start_year": 2024,
+            "end_year": 2024,
+            "tags": [
+                "Journal"
+            ]
+        },
+        {
             "name": "Energy-aware 3D path planning via Reinforcement Learning for aerial object detection and mapping",
             "description": "PhD dissertation focusing on developing energy-efficient path planning algorithms for unmanned aerial vehicles using reinforcement learning for autonomous object detection and environmental mapping.",
             "image": "thesis_2024.jpg",
@@ -64,9 +83,27 @@
                 "Thesis"
             ]
         },
-
         {
-            "name": "Visual and Electrochemical monitoring of neural cells through inkjet printed graphene microelectrodes",
+            "name": "Electrochemical characterization of dopamine in neural cells with flexible biosensors",
+            "description": "Development of flexible biosensors for real-time electrochemical monitoring of dopamine release in neural cells, advancing our understanding of neural communication mechanisms.",
+            "image": "dopamine_2022.jpg",
+            "code": null,
+            "papers": [
+                {
+                    "title": "Electrochemical characterization of dopamine in neural cells with flexible biosensors",
+                    "url": "https://asmedigitalcollection.asme.org/manufacturingscience/article/144/9/091009/1147001",
+                    "type": "Journal"
+                }
+            ],
+            "gallery": null,
+            "start_year": 2022,
+            "end_year": 2022,
+            "tags": [
+                "Journal"
+            ]
+        },
+        {
+            "name": "Minute-sensitive real-time monitoring of neural cells through printed graphene microelectrodes",
             "description": "Novel graphene-based microelectrodes enabling high-resolution, real-time monitoring of neural cell activity with minute-level temporal precision for advanced neurobiological research.",
             "image": "neural_monitoring_2022.jpg",
             "code": null,
@@ -75,22 +112,11 @@
                     "title": "Minute-sensitive real-time monitoring of neural cells through printed graphene microelectrodes",
                     "url": "https://www.sciencedirect.com/science/article/pii/S0956566322001234",
                     "type": "Journal"
-                },
-                {
-                    "title": "Capacitance of Flexible Polymer/Graphene Microstructures with High Mechanical Strength",
-                    "url": "https://www.liebertpub.com/doi/10.1089/3dp.2023.0001",
-                    "type": "Journal"
-                },
-                {
-                    "title": "Electrochemical characterization of dopamine in neural cells with flexible biosensors",
-                    "url": "https://asmedigitalcollection.asme.org/manufacturingscience/article/144/9/091009/1147001",
-                    "type": "Journal"
                 }
-
             ],
             "gallery": null,
-            "start_year": 2017,
-            "end_year": 2021,
+            "start_year": 2022,
+            "end_year": 2022,
             "tags": [
                 "Journal"
             ]
