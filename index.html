@@ -86,12 +86,15 @@ title: "Amir Niaraki - Research Scientist"
         </section>
     </div>
 
-    <!-- Image Modal -->
+    <!-- Image/Video Modal -->
     <div id="imageModal" class="image-modal">
         <span class="image-modal-close">&times;</span>
-        <button class="image-modal-prev" id="modalPrev" aria-label="Previous image">&#8249;</button>
-        <button class="image-modal-next" id="modalNext" aria-label="Next image">&#8250;</button>
-        <img class="image-modal-content" id="modalImage">
+        <button class="image-modal-prev" id="modalPrev" aria-label="Previous">&#8249;</button>
+        <button class="image-modal-next" id="modalNext" aria-label="Next">&#8250;</button>
+        <div class="modal-content-wrapper" id="modalContentWrapper">
+            <img class="image-modal-content" id="modalImage" style="display: none;">
+            <div class="video-modal-content" id="modalVideo" style="display: none;"></div>
+        </div>
         <div class="image-modal-caption" id="modalCaption"></div>
         <div class="image-modal-counter" id="modalCounter"></div>
     </div>
@@ -101,6 +104,72 @@ title: "Amir Niaraki - Research Scientist"
         let currentGallery = [];
         let currentImageIndex = 0;
         let currentProjectIndex = -1;
+        let currentVideoIframe = null;
+        
+        // Helper functions for YouTube
+        function extractYouTubeId(urlOrId) {
+            if (!urlOrId) return null;
+            
+            // If it's already just an ID (11 characters, alphanumeric)
+            if (/^[a-zA-Z0-9_-]{11}$/.test(urlOrId)) {
+                return { id: urlOrId, timestamp: null };
+            }
+            
+            // Extract from various YouTube URL formats
+            const patterns = [
+                /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+                /youtube\.com\/.*[?&]v=([a-zA-Z0-9_-]{11})/
+            ];
+            
+            for (const pattern of patterns) {
+                const match = urlOrId.match(pattern);
+                if (match) {
+                    // Extract timestamp if present (t=46s or t=1h2m3s format)
+                    const timestampMatch = urlOrId.match(/[?&]t=([0-9hms]+)/);
+                    const timestamp = timestampMatch ? timestampMatch[1] : null;
+                    return { id: match[1], timestamp: timestamp };
+                }
+            }
+            
+            return null;
+        }
+        
+        function isYouTubeVideo(item) {
+            const result = extractYouTubeId(item);
+            return result !== null;
+        }
+        
+        function getYouTubeThumbnail(videoId) {
+            // videoId can be either string or object with id property
+            const id = typeof videoId === 'string' ? videoId : videoId.id;
+            return `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+        }
+        
+        function getYouTubeEmbedUrl(videoId, autoplay = true) {
+            // videoId can be either string or object with id and timestamp
+            const id = typeof videoId === 'string' ? videoId : videoId.id;
+            const timestamp = typeof videoId === 'object' && videoId.timestamp ? videoId.timestamp : null;
+            
+            let embedUrl = `https://www.youtube.com/embed/${id}?autoplay=${autoplay ? 1 : 0}&rel=0`;
+            if (timestamp) {
+                // Convert timestamp to seconds if needed
+                let seconds = 0;
+                if (/^\d+$/.test(timestamp)) {
+                    // Just seconds
+                    seconds = parseInt(timestamp);
+                } else {
+                    // Parse formats like "1h2m3s" or "2m3s"
+                    const hours = timestamp.match(/(\d+)h/);
+                    const minutes = timestamp.match(/(\d+)m/);
+                    const secs = timestamp.match(/(\d+)s/);
+                    if (hours) seconds += parseInt(hours[1]) * 3600;
+                    if (minutes) seconds += parseInt(minutes[1]) * 60;
+                    if (secs) seconds += parseInt(secs[1]);
+                }
+                embedUrl += `&start=${seconds}`;
+            }
+            return embedUrl;
+        }
 
         // Load and render projects
         async function loadProjects() {
@@ -114,27 +183,53 @@ title: "Amir Niaraki - Research Scientist"
                 container.innerHTML = projects.map((p, projectIndex) => {
                     // Build gallery array - use gallery if available, otherwise fall back to main image
                     const gallery = (p.gallery && p.gallery.length > 0) ? p.gallery : [p.image];
-                    const galleryPaths = gallery.map(img => img.includes('/') ? img : 'assets/images/' + img);
+                    
+                    // Process gallery items - keep original format for detection
+                    const galleryItems = gallery.map(item => {
+                        const youtubeData = extractYouTubeId(item);
+                        if (youtubeData) {
+                            return { type: 'youtube', id: youtubeData.id, timestamp: youtubeData.timestamp, original: item };
+                        } else {
+                            return { type: 'image', path: item.includes('/') ? item : 'assets/images/' + item, original: item };
+                        }
+                    });
                     
                     // Find index of main image in gallery
                     const mainImagePath = p.image.includes('/') ? p.image : 'assets/images/' + p.image;
-                    const mainImageIndex = galleryPaths.indexOf(mainImagePath);
+                    const mainImageIndex = galleryItems.findIndex(item => item.type === 'image' && item.path === mainImagePath);
                     const startIndex = mainImageIndex >= 0 ? mainImageIndex : 0;
                     
                     // Build gallery thumbnails HTML
-                    const galleryThumbnails = galleryPaths.length > 1 ? galleryPaths.map((imgPath, imgIndex) => `
-                        <div class="gallery-thumbnail" onclick="event.stopPropagation(); openGalleryModal(${projectIndex}, ${imgIndex})">
-                            <img src="${imgPath}" alt="Gallery image ${imgIndex + 1}" onerror="this.src='assets/images/research_placeholder_icon.jpg'">
+                    const galleryThumbnails = galleryItems.length > 1 ? galleryItems.map((item, imgIndex) => {
+                        let thumbnailSrc;
+                        if (item.type === 'youtube') {
+                            thumbnailSrc = getYouTubeThumbnail(item.id);
+                        } else {
+                            thumbnailSrc = item.path;
+                        }
+                        return `
+                        <div class="gallery-thumbnail ${item.type === 'youtube' ? 'video-thumbnail' : ''}" onclick="event.stopPropagation(); openGalleryModal(${projectIndex}, ${imgIndex})">
+                            <img src="${thumbnailSrc}" alt="${item.type === 'youtube' ? 'Video' : 'Gallery image'} ${imgIndex + 1}" onerror="this.src='assets/images/research_placeholder_icon.jpg'">
+                            ${item.type === 'youtube' ? '<div class="video-play-icon">▶</div>' : ''}
                         </div>
-                    `).join('') : '';
+                    `;
+                    }).join('') : '';
+                    
+                    // Determine main display item
+                    const mainItem = galleryItems[startIndex] || galleryItems[0];
+                    const mainDisplaySrc = mainItem && mainItem.type === 'youtube' 
+                        ? getYouTubeThumbnail(mainItem.id) 
+                        : mainImagePath;
+                    const isMainVideo = mainItem && mainItem.type === 'youtube';
                     
                     return `
                     <div class="project-card" data-project-index="${projectIndex}">
                         <div class="project-image-container">
                             <div class="project-image" onclick="openGalleryModal(${projectIndex}, ${startIndex})">
-                                <img src="${mainImagePath}" 
+                                <img src="${mainDisplaySrc}" 
                                      alt="${p.title || p.name}" 
                                      onerror="this.src='assets/images/research_placeholder_icon.jpg'">
+                                ${isMainVideo ? '<div class="video-play-overlay">▶</div>' : ''}
                             </div>
                             ${galleryThumbnails ? `<div class="gallery-thumbnails" id="gallery-${projectIndex}">${galleryThumbnails}</div>` : ''}
                         </div>
@@ -209,10 +304,19 @@ title: "Amir Niaraki - Research Scientist"
             
             const project = window.projectsData[projectIndex];
             const gallery = (project.gallery && project.gallery.length > 0) ? project.gallery : [project.image];
-            const galleryPaths = gallery.map(img => img.includes('/') ? img : 'assets/images/' + img);
             
-            currentGallery = galleryPaths;
-            currentImageIndex = Math.min(imageIndex, galleryPaths.length - 1);
+            // Process gallery items
+            const galleryItems = gallery.map(item => {
+                const youtubeData = extractYouTubeId(item);
+                if (youtubeData) {
+                    return { type: 'youtube', id: youtubeData.id, timestamp: youtubeData.timestamp, original: item };
+                } else {
+                    return { type: 'image', path: item.includes('/') ? item : 'assets/images/' + item, original: item };
+                }
+            });
+            
+            currentGallery = galleryItems;
+            currentImageIndex = Math.min(imageIndex, galleryItems.length - 1);
             currentProjectIndex = projectIndex;
             
             const modal = document.getElementById('imageModal');
@@ -240,8 +344,18 @@ title: "Amir Niaraki - Research Scientist"
             document.body.style.overflow = 'hidden';
         }
         
+        function stopCurrentVideo() {
+            // Stop any currently playing video
+            if (currentVideoIframe) {
+                // Clear the src to stop the video completely
+                currentVideoIframe.src = '';
+                currentVideoIframe = null;
+            }
+        }
+        
         function updateGalleryImage() {
             const modalImg = document.getElementById('modalImage');
+            const modalVideo = document.getElementById('modalVideo');
             const modalCaption = document.getElementById('modalCaption');
             const modalCounter = document.getElementById('modalCounter');
             const prevBtn = document.getElementById('modalPrev');
@@ -249,9 +363,35 @@ title: "Amir Niaraki - Research Scientist"
             
             if (currentGallery.length === 0) return;
             
-            const project = (window.projectsData && currentProjectIndex >= 0) ? window.projectsData[currentProjectIndex] : null;
+            // Stop any currently playing video before switching
+            stopCurrentVideo();
             
-            modalImg.src = currentGallery[currentImageIndex];
+            const project = (window.projectsData && currentProjectIndex >= 0) ? window.projectsData[currentProjectIndex] : null;
+            const currentItem = currentGallery[currentImageIndex];
+            
+            // Hide both, then show the appropriate one
+            modalImg.style.display = 'none';
+            modalVideo.style.display = 'none';
+            modalVideo.innerHTML = '';
+            
+            if (currentItem.type === 'youtube') {
+                // Show YouTube video
+                const iframe = document.createElement('iframe');
+                const videoData = { id: currentItem.id, timestamp: currentItem.timestamp };
+                iframe.src = getYouTubeEmbedUrl(videoData, true);
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                iframe.allowFullscreen = true;
+                iframe.className = 'youtube-embed';
+                modalVideo.appendChild(iframe);
+                modalVideo.style.display = 'block';
+                // Store reference to current iframe
+                currentVideoIframe = iframe;
+            } else {
+                // Show image
+                modalImg.src = currentItem.path;
+                modalImg.style.display = 'block';
+            }
+            
             modalCaption.textContent = project ? (project.title || project.name) : '';
             modalCounter.textContent = `${currentImageIndex + 1} of ${currentGallery.length}`;
             
@@ -275,7 +415,16 @@ title: "Amir Niaraki - Research Scientist"
         }
 
         function closeImageModal() {
+            // Stop any playing video before closing
+            stopCurrentVideo();
+            
             const modal = document.getElementById('imageModal');
+            const modalVideo = document.getElementById('modalVideo');
+            
+            // Clear video iframe completely
+            modalVideo.innerHTML = '';
+            modalVideo.style.display = 'none';
+            
             modal.style.display = 'none';
             
             // Restore body scroll

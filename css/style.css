@@ -332,7 +332,7 @@ body {
     transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
     width: 100%;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .project-card:hover {
@@ -388,6 +388,8 @@ body {
     gap: 8px;
     width: 160px;
     flex-shrink: 0;
+    align-self: stretch;
+    min-height: 100%;
 }
 
 .project-image {
@@ -423,14 +425,15 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    max-height: 60px;
-    overflow: hidden;
+    max-height: none;
+    overflow: visible;
     transition: max-height 0.3s ease, opacity 0.3s ease;
     opacity: 1;
+    align-content: flex-start;
 }
 
 .gallery-thumbnails.expanded {
-    max-height: 500px;
+    max-height: none;
     opacity: 1;
 }
 
@@ -463,6 +466,50 @@ body {
     padding: 0;
 }
 
+.gallery-thumbnail.video-thumbnail {
+    position: relative;
+}
+
+.video-play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 16px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.video-play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 48px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.project-image:hover .video-play-overlay {
+    background: rgba(220, 38, 38, 0.9);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
 /* Image Modal/Lightbox */
 .image-modal {
     display: none;
@@ -476,16 +523,40 @@ body {
     backdrop-filter: blur(5px);
 }
 
-.image-modal-content {
+.modal-content-wrapper {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     max-width: 90%;
     max-height: 90%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-modal-content {
+    max-width: 100%;
+    max-height: 90vh;
     object-fit: contain;
     border-radius: 8px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.video-modal-content {
+    width: 100%;
+    max-width: 1280px;
+    aspect-ratio: 16 / 9;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+.youtube-embed {
+    width: 100%;
+    height: 100%;
+    border: none;
 }
 
 .image-modal-close {
