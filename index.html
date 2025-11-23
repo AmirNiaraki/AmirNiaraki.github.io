@@ -407,7 +407,14 @@ title: "Amir Niaraki - Research Scientist"
                 
                 modalVideo.appendChild(iframe);
                 modalVideo.style.display = 'block';
-                modalVideo.style.margin = '0 auto';
+                modalVideo.style.margin = '0';
+                modalVideo.style.position = 'relative';
+                modalVideo.style.top = 'auto';
+                modalVideo.style.left = 'auto';
+                modalVideo.style.transform = 'none';
+                modalVideo.style.width = '90vw';
+                modalVideo.style.maxWidth = '1280px';
+                modalVideo.style.minWidth = '640px';
                 
                 // Store reference to current iframe
                 currentVideoIframe = iframe;
