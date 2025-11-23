@@ -142,29 +142,33 @@ title: "Amir Niaraki - Research Scientist"
         function getYouTubeThumbnail(videoId) {
             // videoId can be either string or object with id property
             const id = typeof videoId === 'string' ? videoId : videoId.id;
+            if (!id) return '';
             return `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
         }
         
         function getYouTubeEmbedUrl(videoId, autoplay = true) {
             // videoId can be either string or object with id and timestamp
             const id = typeof videoId === 'string' ? videoId : videoId.id;
+            if (!id) return '';
+            
             const timestamp = typeof videoId === 'object' && videoId.timestamp ? videoId.timestamp : null;
             
-            let embedUrl = `https://www.youtube.com/embed/${id}?autoplay=${autoplay ? 1 : 0}&rel=0`;
+            // Always use HTTPS explicitly for GitHub Pages compatibility
+            let embedUrl = `https://www.youtube.com/embed/${id}?autoplay=${autoplay ? 1 : 0}&rel=0&enablejsapi=1`;
             if (timestamp) {
                 // Convert timestamp to seconds if needed
                 let seconds = 0;
                 if (/^\d+$/.test(timestamp)) {
                     // Just seconds
-                    seconds = parseInt(timestamp);
+                    seconds = parseInt(timestamp, 10);
                 } else {
                     // Parse formats like "1h2m3s" or "2m3s"
                     const hours = timestamp.match(/(\d+)h/);
                     const minutes = timestamp.match(/(\d+)m/);
                     const secs = timestamp.match(/(\d+)s/);
-                    if (hours) seconds += parseInt(hours[1]) * 3600;
-                    if (minutes) seconds += parseInt(minutes[1]) * 60;
-                    if (secs) seconds += parseInt(secs[1]);
+                    if (hours) seconds += parseInt(hours[1], 10) * 3600;
+                    if (minutes) seconds += parseInt(minutes[1], 10) * 60;
+                    if (secs) seconds += parseInt(secs[1], 10);
                 }
                 embedUrl += `&start=${seconds}`;
             }
@@ -374,16 +378,37 @@ title: "Amir Niaraki - Research Scientist"
             modalVideo.style.display = 'none';
             modalVideo.innerHTML = '';
             
+            // Ensure modal content wrapper is visible and properly positioned
+            const modalContentWrapper = document.getElementById('modalContentWrapper');
+            if (modalContentWrapper) {
+                modalContentWrapper.style.display = 'flex';
+            }
+            
             if (currentItem.type === 'youtube') {
                 // Show YouTube video
                 const iframe = document.createElement('iframe');
                 const videoData = { id: currentItem.id, timestamp: currentItem.timestamp };
-                iframe.src = getYouTubeEmbedUrl(videoData, true);
-                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-                iframe.allowFullscreen = true;
-                iframe.className = 'youtube-embed';
+                const embedUrl = getYouTubeEmbedUrl(videoData, true);
+                
+                // Debug logging for GitHub Pages troubleshooting
+                if (typeof console !== 'undefined' && console.log) {
+                    console.log('Loading YouTube video:', embedUrl);
+                }
+                
+                // Set iframe attributes explicitly for GitHub Pages compatibility
+                iframe.setAttribute('src', embedUrl);
+                iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                iframe.setAttribute('allowfullscreen', 'true');
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('class', 'youtube-embed');
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.border = 'none';
+                
                 modalVideo.appendChild(iframe);
                 modalVideo.style.display = 'block';
+                modalVideo.style.margin = '0 auto';
+                
                 // Store reference to current iframe
                 currentVideoIframe = iframe;
             } else {
