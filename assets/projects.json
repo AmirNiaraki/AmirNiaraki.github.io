@@ -3,7 +3,7 @@
         {
             "name": "3D Path Planning for Power-Optimized Aerial Object Detection With Reinforcement Learning",
             "description": "We are aiming to provide a device-agnostic 3D path-planning framework that optimizes UAV navigation using both detected target patterns and real-time wind fields. By combining reinforcement learning with an efficient perception module trained on real NIR data, the system intelligently adapts flight paths for improved search efficiency. The proposed Integrated Power and Perception Path Planning (IP4) method significantly outperforms traditional full-coverage approaches, even without a prior map of the area.",
-            "image": "drone_path.png",
+            "image": "CCPP.gif",
             "code": "https://github.com/AmirNiaraki/drone_gym",
             "papers": [
                 {
@@ -31,7 +31,7 @@
                     "year": 2019
                 }
             ],
-            "gallery": null,
+            "gallery": ["drone_path.png","Retina.png","IP4_exploring.gif","CCPP.gif"],
             "start_year": 2023,
             "end_year": null,
             "tags": [
@@ -53,7 +53,7 @@
                     "year": 2024
                 }
             ],
-            "gallery": null,
+            "gallery": ["trajectory.png"],
             "start_year": 2022,
             "end_year": null,
             "tags": [
@@ -97,7 +97,7 @@
                     "year": 2019
                 }
             ],
-            "gallery": null,
+            "gallery": ["3d_graphene_2019.png"],
             "start_year": 2018,
             "end_year": 2023,
             "tags": [
@@ -129,7 +129,7 @@
                     "year": 2021
                 }
             ],
-            "gallery": null,
+            "gallery": ["cells_graphene.png"],
             "start_year": 2020,
             "end_year": 2022,
             "tags": [
@@ -139,7 +139,7 @@
         },
 
         {
-            "name": "Characterization of Syngas Combustion in Intersecting Burners Using the Interferometry Method",
+            "name": "Vision-based Characterization of Syngas Combustion in Intersecting Burners Using the Interferometry Method",
             "description": "Inserting physical probes for temperature measurement will influence the flow field, therefore we designed a vision based experiment setup to estimate the temperature and flame structure based on interferometry method.",
             "image": "interferrometry_2017.png",
             "code": null,
@@ -151,7 +151,7 @@
                     "year": 2017
                 }
             ],
-            "gallery": null,
+            "gallery": ["interferrometry_2017.png"],
             "start_year": 2015,
             "end_year": 2017,
             "tags": [

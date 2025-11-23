@@ -21,16 +21,19 @@ title: "Amir Niaraki - Research Scientist"
                 </div>
                 <div class="profile-right">
                     <p class="description">
-                        I'm a Research Scientist and Manager of the <a href="https://www.musco.com" target="_blank" rel="noopener">Musco</a> AI Team. My core scientific interests are computational perception and intelligent machines, particularly how to accurately localize objects or sense a scene using traditional computer vision methods or deep learning. This fascination traces back to my master's thesis on reinforcement learning for robot path planning and other neural network models for scene perception.
+                        I'm a Research Scientist and Manager of  <a href="https://www.musco.com" target="_blank" rel="noopener">Musco</a> AI Team. My core scientific interests are computational perception and intelligent machines, particularly how to accurately localize objects or sense a scene using traditional computer vision methods or deep learning. This fascination traces back to my master's thesis on reinforcement learning for robot path planning and other neural network models for scene perception.
                     </p>
                     <p class="description">
                         My first Ph.D. focused on electrochemical and visual sensing of rat dopaminergic neurons—a different kind of neural network, this time on a chip! I'm currently affiliated with the <a href="https://www.cs.iastate.edu/people/amir-niaraki-asli" target="_blank" rel="noopener">Department of Computer Science</a> at Iowa State University, where our latest publications explore the bird's-eye coverage problem in large outdoor environments.
                     </p>
                     <div class="research-interests">
                         <span class="research-tag">Computer Vision</span>
-                        <span class="research-tag">Neuronal Sensing</span>
+                        <span class="research-tag">Vision Transformers</span>
+                        <span class="research-tag">Generative AI</span>
                         <span class="research-tag">Reinforcement Learning</span>
                         <span class="research-tag">Pattern Recognition</span>
+                        <span class="research-tag">Neuronal Sensing</span>
+
                     </div>
                     <div class="profile-contact-links">
                         <a href="mailto:niaraki@iastate.edu" class="profile-contact-link">
@@ -86,45 +89,74 @@ title: "Amir Niaraki - Research Scientist"
     <!-- Image Modal -->
     <div id="imageModal" class="image-modal">
         <span class="image-modal-close">&times;</span>
+        <button class="image-modal-prev" id="modalPrev" aria-label="Previous image">&#8249;</button>
+        <button class="image-modal-next" id="modalNext" aria-label="Next image">&#8250;</button>
         <img class="image-modal-content" id="modalImage">
         <div class="image-modal-caption" id="modalCaption"></div>
+        <div class="image-modal-counter" id="modalCounter"></div>
     </div>
 
     <script>
+        // Gallery state
+        let currentGallery = [];
+        let currentImageIndex = 0;
+        let currentProjectIndex = -1;
+
         // Load and render projects
         async function loadProjects() {
             try {
                 const response = await fetch('{{ "/assets/projects.json" | relative_url }}?v=' + Date.now());
                 const data = await response.json();
-                const projects = data.projects.sort((a, b) => (b.start_year || 0) - (a.start_year || 0));
+                // Keep projects in JSON order (no sorting)
+                const projects = data.projects;
                 
                 const container = document.getElementById('projects-container');
-                container.innerHTML = projects.map(p => `
-                    <div class="project-card">
-                        <div class="project-image" onclick="openImageModal('${p.image.includes('/') ? p.image : 'assets/images/' + p.image}', '${p.title || p.name}')">
-                            <img src="${p.image.includes('/') ? p.image : 'assets/images/' + p.image}" 
-                                 alt="${p.title || p.name}" 
-                                 onerror="this.src='assets/images/research_placeholder_icon.jpg'">
+                container.innerHTML = projects.map((p, projectIndex) => {
+                    // Build gallery array - use gallery if available, otherwise fall back to main image
+                    const gallery = (p.gallery && p.gallery.length > 0) ? p.gallery : [p.image];
+                    const galleryPaths = gallery.map(img => img.includes('/') ? img : 'assets/images/' + img);
+                    
+                    // Find index of main image in gallery
+                    const mainImagePath = p.image.includes('/') ? p.image : 'assets/images/' + p.image;
+                    const mainImageIndex = galleryPaths.indexOf(mainImagePath);
+                    const startIndex = mainImageIndex >= 0 ? mainImageIndex : 0;
+                    
+                    // Build gallery thumbnails HTML
+                    const galleryThumbnails = galleryPaths.length > 1 ? galleryPaths.map((imgPath, imgIndex) => `
+                        <div class="gallery-thumbnail" onclick="event.stopPropagation(); openGalleryModal(${projectIndex}, ${imgIndex})">
+                            <img src="${imgPath}" alt="Gallery image ${imgIndex + 1}" onerror="this.src='assets/images/research_placeholder_icon.jpg'">
                         </div>
-                        <div class="project-content">
+                    `).join('') : '';
+                    
+                    return `
+                    <div class="project-card" data-project-index="${projectIndex}">
+                        <div class="project-image-container">
+                            <div class="project-image" onclick="openGalleryModal(${projectIndex}, ${startIndex})">
+                                <img src="${mainImagePath}" 
+                                     alt="${p.title || p.name}" 
+                                     onerror="this.src='assets/images/research_placeholder_icon.jpg'">
+                            </div>
+                            ${galleryThumbnails ? `<div class="gallery-thumbnails" id="gallery-${projectIndex}">${galleryThumbnails}</div>` : ''}
+                        </div>
+                        <div class="project-content" onclick="handleProjectContentClick(event, ${projectIndex})">
                             <div class="project-header">
                                 <h3 class="project-title">${p.title || p.name}</h3>
                                 <span class="project-year">${p.year || (p.end_year ? (p.start_year === p.end_year ? p.start_year : `${p.start_year} - ${p.end_year}`) : `${p.start_year} - ongoing`)}</span>
                             </div>
-                            ${p.description ? `<p class="project-description">${p.description}</p>` : ''}
+                            ${p.code ? `
+                                <div class="project-code-link">
+                                    <a class="project-link code-link" href="${p.code}" target="_blank" rel="noopener">View Code</a>
+                                </div>
+                            ` : ''}
+                            ${p.description ? `<p class="project-description" id="desc-${projectIndex}">${p.description}</p>` : ''}
                             ${p.papers && p.papers.length > 0 ? `
                                 <div class="publications-section">
                                     <h4 class="publications-title">Publications</h4>
                                     <div class="publications-links">
-                                        ${p.papers.sort((a, b) => (b.year || 0) - (a.year || 0)).map((paper, index) => 
-                                            `<a class="project-link" href="${paper.url}" target="_blank" rel="noopener">${paper.title}</a>${index === 0 && p.code ? `<a class="project-link code-link" href="${p.code}" target="_blank" rel="noopener">View Code</a>` : ''}`
+                                        ${p.papers.sort((a, b) => (b.year || 0) - (a.year || 0)).map((paper) => 
+                                            `<a class="project-link" href="${paper.url}" target="_blank" rel="noopener">${paper.title}</a>`
                                         ).join('')}
                                     </div>
-                                </div>
-                            ` : ''}
-                            ${p.code && (!p.papers || p.papers.length === 0) ? `
-                                <div class="project-links">
-                                    <a class="project-link" href="${p.code}" target="_blank" rel="noopener">View Code</a>
                                 </div>
                             ` : ''}
                             ${p.links ? `
@@ -134,7 +166,11 @@ title: "Amir Niaraki - Research Scientist"
                             ` : ''}
                         </div>
                     </div>
-                `).join('');
+                `;
+                }).join('');
+                
+                // Store projects data globally for gallery access (sorted array)
+                window.projectsData = projects;
             } catch (error) {
                 console.error('Error loading projects:', error);
             }
@@ -145,7 +181,8 @@ title: "Amir Niaraki - Research Scientist"
             try {
                 const response = await fetch('{{ "/assets/publications.json" | relative_url }}?v=' + Date.now());
                 const data = await response.json();
-                const publications = data.publications;
+                // Sort publications by year (latest first)
+                const publications = data.publications.sort((a, b) => (b.year || 0) - (a.year || 0));
                 
                 const container = document.getElementById('publications-container');
                 container.innerHTML = publications.map(pub => `
@@ -166,18 +203,75 @@ title: "Amir Niaraki - Research Scientist"
             loadPublications();
         }
 
-        // Image modal functions
-        function openImageModal(imageSrc, caption) {
+        // Gallery modal functions
+        function openGalleryModal(projectIndex, imageIndex = 0) {
+            if (!window.projectsData) return;
+            
+            const project = window.projectsData[projectIndex];
+            const gallery = (project.gallery && project.gallery.length > 0) ? project.gallery : [project.image];
+            const galleryPaths = gallery.map(img => img.includes('/') ? img : 'assets/images/' + img);
+            
+            currentGallery = galleryPaths;
+            currentImageIndex = Math.min(imageIndex, galleryPaths.length - 1);
+            currentProjectIndex = projectIndex;
+            
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImage');
             const modalCaption = document.getElementById('modalCaption');
+            const modalCounter = document.getElementById('modalCounter');
+            const prevBtn = document.getElementById('modalPrev');
+            const nextBtn = document.getElementById('modalNext');
             
             modal.style.display = 'block';
-            modalImg.src = imageSrc;
-            modalCaption.textContent = caption;
+            updateGalleryImage();
+            
+            // Buttons are never disabled in circular gallery
+            prevBtn.disabled = false;
+            nextBtn.disabled = false;
+            
+            // Show/hide counter
+            if (currentGallery.length > 1) {
+                modalCounter.style.display = 'block';
+            } else {
+                modalCounter.style.display = 'none';
+            }
             
             // Prevent body scroll when modal is open
             document.body.style.overflow = 'hidden';
+        }
+        
+        function updateGalleryImage() {
+            const modalImg = document.getElementById('modalImage');
+            const modalCaption = document.getElementById('modalCaption');
+            const modalCounter = document.getElementById('modalCounter');
+            const prevBtn = document.getElementById('modalPrev');
+            const nextBtn = document.getElementById('modalNext');
+            
+            if (currentGallery.length === 0) return;
+            
+            const project = (window.projectsData && currentProjectIndex >= 0) ? window.projectsData[currentProjectIndex] : null;
+            
+            modalImg.src = currentGallery[currentImageIndex];
+            modalCaption.textContent = project ? (project.title || project.name) : '';
+            modalCounter.textContent = `${currentImageIndex + 1} of ${currentGallery.length}`;
+            
+            // Buttons are never disabled in circular gallery
+            prevBtn.disabled = false;
+            nextBtn.disabled = false;
+        }
+        
+        function nextImage() {
+            if (currentGallery.length === 0) return;
+            // Circular navigation: wrap around to first image if at the end
+            currentImageIndex = (currentImageIndex + 1) % currentGallery.length;
+            updateGalleryImage();
+        }
+        
+        function prevImage() {
+            if (currentGallery.length === 0) return;
+            // Circular navigation: wrap around to last image if at the beginning
+            currentImageIndex = (currentImageIndex - 1 + currentGallery.length) % currentGallery.length;
+            updateGalleryImage();
         }
 
         function closeImageModal() {
@@ -186,6 +280,37 @@ title: "Amir Niaraki - Research Scientist"
             
             // Restore body scroll
             document.body.style.overflow = 'auto';
+        }
+        
+        // Handle project content click (expand description, but not on links)
+        function handleProjectContentClick(event, projectIndex) {
+            // Don't expand if clicking on a link, button, or inside publications section
+            const target = event.target;
+            if (target.tagName === 'A' || target.closest('a') || target.closest('.publications-section') || target.closest('.project-links')) {
+                return;
+            }
+            event.stopPropagation();
+            toggleDescription(projectIndex);
+        }
+        
+        // Toggle description expansion
+        function toggleDescription(projectIndex) {
+            const descElement = document.getElementById(`desc-${projectIndex}`);
+            const galleryThumbnails = document.getElementById(`gallery-${projectIndex}`);
+            
+            if (descElement) {
+                const isExpanding = !descElement.classList.contains('expanded');
+                descElement.classList.toggle('expanded');
+                
+                // Show all gallery thumbnails when expanded
+                if (galleryThumbnails) {
+                    if (isExpanding) {
+                        galleryThumbnails.classList.add('expanded');
+                    } else {
+                        galleryThumbnails.classList.remove('expanded');
+                    }
+                }
+            }
         }
 
         // Close modal when clicking outside the image
@@ -208,10 +333,37 @@ title: "Amir Niaraki - Research Scientist"
             closeBtn.addEventListener('click', closeImageModal);
             modal.addEventListener('click', closeModalOnClick);
             
-            // Close modal with Escape key
+            // Add event listeners for gallery navigation
+            const prevBtn = document.getElementById('modalPrev');
+            const nextBtn = document.getElementById('modalNext');
+            
+            if (prevBtn) {
+                prevBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    prevImage();
+                });
+            }
+            
+            if (nextBtn) {
+                nextBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    nextImage();
+                });
+            }
+            
+            // Close modal with Escape key, navigate with arrow keys
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape') {
-                    closeImageModal();
+                const modal = document.getElementById('imageModal');
+                if (modal.style.display === 'block') {
+                    if (e.key === 'Escape') {
+                        closeImageModal();
+                    } else if (e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        prevImage();
+                    } else if (e.key === 'ArrowRight') {
+                        e.preventDefault();
+                        nextImage();
+                    }
                 }
                 if (e.ctrlKey && e.key === 'r') {
                     e.preventDefault();

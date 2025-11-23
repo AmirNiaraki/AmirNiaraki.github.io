@@ -377,6 +377,19 @@ body {
     white-space: nowrap;
 }
 
+.project-code-link {
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+
+.project-image-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 160px;
+    flex-shrink: 0;
+}
+
 .project-image {
     width: 160px;
     height: 160px;
@@ -403,6 +416,51 @@ body {
 
 .project-card:hover .project-image img {
     transform: scale(1.05);
+}
+
+/* Gallery thumbnails */
+.gallery-thumbnails {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    max-height: 60px;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+
+.gallery-thumbnails.expanded {
+    max-height: 500px;
+    opacity: 1;
+}
+
+.gallery-thumbnail {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 2px solid #e5e5e5;
+    cursor: pointer;
+    background: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.gallery-thumbnail:hover {
+    border-color: var(--dark-blue-grey-lighter);
+    transform: scale(1.1);
+    box-shadow: 0 2px 8px rgba(26, 35, 50, 0.15);
+}
+
+.gallery-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+    padding: 0;
 }
 
 /* Image Modal/Lightbox */
@@ -461,12 +519,98 @@ body {
     max-width: 80%;
 }
 
+/* Gallery navigation buttons */
+.image-modal-prev,
+.image-modal-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 15px 20px;
+    border-radius: 8px;
+    z-index: 1001;
+    transition: all 0.3s ease;
+    user-select: none;
+    backdrop-filter: blur(5px);
+}
+
+.image-modal-prev {
+    left: 20px;
+}
+
+.image-modal-next {
+    right: 20px;
+}
+
+.image-modal-prev:hover:not(:disabled),
+.image-modal-next:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.3);
+    border-color: rgba(255, 255, 255, 0.8);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.image-modal-prev:disabled,
+.image-modal-next:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.image-modal-prev:active:not(:disabled),
+.image-modal-next:active:not(:disabled) {
+    transform: translateY(-50%) scale(0.95);
+}
+
+/* Image counter */
+.image-modal-counter {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 500;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 8px 16px;
+    border-radius: 20px;
+    z-index: 1001;
+    display: none;
+}
+
 .project-description {
     color: #374151;
     line-height: 1.6;
     margin-bottom: 20px;
     font-size: 1.05rem;
     font-weight: 400;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.project-description.expanded {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+}
+
+.project-content {
+    cursor: pointer;
+}
+
+.project-content a,
+.project-content .publications-section {
+    cursor: default;
+    pointer-events: auto;
 }
 
 
@@ -711,11 +855,20 @@ body {
     
     .project-card { flex-direction: column; align-items: flex-start; gap: 12px; }
     
+    .project-image-container {
+        width: 120px;
+        order: 1;
+    }
+    
     .project-image {
         width: 120px;
         height: 120px;
         align-self: flex-start;
-        order: 1;
+    }
+    
+    .gallery-thumbnail {
+        width: 36px;
+        height: 36px;
     }
     
     .project-content {
@@ -780,6 +933,25 @@ body {
         flex-direction: column;
         gap: 8px;
         align-items: flex-start;
+    }
+    
+    .image-modal-prev,
+    .image-modal-next {
+        font-size: 30px;
+        padding: 12px 16px;
+    }
+    
+    .image-modal-prev {
+        left: 10px;
+    }
+    
+    .image-modal-next {
+        right: 10px;
+    }
+    
+    .image-modal-counter {
+        font-size: 0.85rem;
+        padding: 6px 12px;
     }
 }
 
