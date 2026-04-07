@@ -2,7 +2,7 @@
     "projects": [
         {
             "name": "3D Path Planning for Power-Optimized Aerial Object Detection With Reinforcement Learning",
-            "description": "We are aiming to provide a device-agnostic 3D path-planning framework that optimizes UAV navigation using both detected target patterns and real-time wind fields. By combining reinforcement learning with an efficient perception module trained on real NIR data, the system intelligently adapts flight paths for improved search efficiency. The proposed Integrated Power and Perception Path Planning (IP4) method significantly outperforms traditional full-coverage approaches, even without a prior map of the area.",
+            "description": "We are providing a device-agnostic 3D path-planning framework that optimizes UAV navigation using both detected target patterns and real-time wind fields. By combining reinforcement learning with an efficient perception module trained on real NIR data, the system intelligently adapts flight paths for improved search efficiency. The proposed Integrated Power and Perception Path Planning (IP4) method significantly outperforms traditional full-coverage approaches, even without a prior map of the area.",
             "image": "CCPP.gif",
             "code": "https://github.com/AmirNiaraki/drone_gym",
             "papers": [
@@ -43,7 +43,7 @@
         {
             "name": "Automatic Umpiring System",
             "description": "We designed a stereo vision system to detect the ball during a baseball game, map the field with sub-inch accuracy, measure the batter’s size using pose models, and ultimately make strike and ball calls faster and more precisely than a human umpire!",
-            "image": "trajectory.png",
+            "image": "visual pitch and outcome.GIF",
             "code": null,
             "papers": [
                 {
@@ -53,12 +53,34 @@
                     "year": 2024
                 }
             ],
-            "gallery": ["trajectory.png"],
+            "gallery": ["visual pitch and outcome.GIF", "trajectory.png", "pitch_sim_unity.GIF", "ua-intro.GIF"],
             "start_year": 2022,
             "end_year": null,
             "tags": [
                 "Patent"
             ]
+        },
+        {
+            "name": "Model-Aware Camera Placement for General Art Gallery Problem",
+            "description": "This project is focused on developing search algorithms and simulation stack to solve the coverage problem in many-camera systems. The goal is to determine the minimum number and orientation of cameras in large environments. The General Art Gallery problem is NP-hard, so introducing a 'Model-Aware' optimization framework. Instead of placing cameras to maximize visible floor area, we optimize placement to maximize the detection recall of a specific target architecture (e.g., YOLOv5 vs. YOLOv11), effectively allowing the neural network's specific strengths and weaknesses (such as occlusion robustness and scale sensitivity) to dictate the physical design",
+            "image": "AM.GIF",
+            "code": null,
+            "papers": [],
+            "gallery": ["AM.GIF"],
+            "start_year": 2023,
+            "end_year": null,
+            "tags": []
+        },
+        {
+            "name": "Use your keyboard as a touchpad!",
+            "description": "We designed a system with electrode boards to be able to detect the user's hand floating above the keyboard and the early pressing of the keys, check out the video!",
+            "image": "keyboard.gif",
+            "code": null,
+            "papers": [],
+            "gallery": ["keyboard.gif"],
+            "start_year": 2023,
+            "end_year": null,
+            "tags": []
         },
         {
             "name": "Rat Dopaminergic Neurons on a Chip!",
